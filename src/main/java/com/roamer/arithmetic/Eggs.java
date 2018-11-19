@@ -16,10 +16,9 @@ public class Eggs {
      *
      * @param m 楼层数
      * @param n 鸡蛋数
-     * @param x 当前层
      * @return 最少次数
      */
-    public static int throwEggs(int m, int n, int x) {
+    public static int throwEggs(int m, int n) {
         // 鸡蛋数和楼层数不可以小于1
         if (m < 1 || n < 1) {
             return 0;
@@ -28,20 +27,18 @@ public class Eggs {
         if (n == 1) {
             return m;
         }
-        // TODO 有bug（当次数大于Integer.MAX_VALUE时）
-        if (x < 1) {
-            return Integer.MAX_VALUE;
-        }
-        // 计算当前层所需最大次数
+        int x = 1;
         int count = max(min(m - x, n) + 1, min(x - 1, n - 1) + 1);
         System.out.println(String.format("x = %d,count = %d", x, count));
-
-        // 进行下一层
-        return min(count, throwEggs(m, n, --x));
+        while (++x <= m) {
+            count = min(count, max(min(m - x, n) + 1, min(x - 1, n - 1) + 1));
+            System.out.println(String.format("x = %d,count = %d", x, count));
+        }
+        return count;
     }
 
     public static void main(String[] args) {
-        int count = throwEggs(3, 1, 3);
+        int count = throwEggs(3, 2);
         System.out.print(count);
     }
 
