@@ -40,7 +40,9 @@ public class Eggs {
                 for (int x = 1; x <= j; x++) {
                     // 自底而上
                     cache[i][j] = min(cache[i][j], max(cache[i][j - x] + 1, cache[i - 1][x - 1] + 1));
+                    System.out.println(String.format("n = %d, m = %d, x = %d, count = %d", i, j, x, cache[i][j]));
                 }
+                System.out.println();
             }
         }
         return cache[n][m];
@@ -62,7 +64,7 @@ public class Eggs {
     }
 
     public static void main(String[] args) {
-        int count = new Eggs(500, 5).throwEggs();
+        int count = new Eggs(10, 2).throwEggs();
         System.out.print(count);
     }
 
