@@ -11,47 +11,37 @@ import com.sun.istack.internal.NotNull;
  */
 public class KmpMatch {
 
-    private String longStr;
-    private char[] ls;
-
-    public KmpMatch(@NotNull String longStr) {
-        this.longStr = longStr;
-        this.ls = longStr.toCharArray();
-    }
-
-    public void match(String str) {
-        if (null == str || longStr.length() < str.length()) {
-            System.out.println("子字符串长度必须<=父字符串长度");
-            return;
+    /**
+     * 匹配子字符串
+     *
+     * @param ts 主字符串
+     * @param ps 子字符串
+     * @return 主字符串中匹配到的第一个字符下标
+     */
+    public static int match(@NotNull String ts, @NotNull String ps) {
+        if (ts.length() < ps.length()) {
+            return -1;
         }
-        char[] ms = str.toCharArray();
-        int start = 0;
-        int end;
-        for (int i = 0; i < ls.length; i++) {
-            end = -1;
-            for (int j = 0; j < ms.length && i + j < ls.length; j++) {
-                // 不匹配跳出内层循环
-                if (ms[j] != ls[i + j]) {
-                    break;
-                }
-                // 相等，则标记开始和结束下标
-                if (ms[j] == ls[i + j]) {
-                    if (j == 0) {
-                        start = i;
-                    }
-                    if (j == ms.length - 1) {
-                        end = i + j;
-                        System.out.printf("%d:%d", start, end);
-                        return;
-                    }
-                }
+        char[] tsArray = ts.toCharArray();
+        char[] psArray = ps.toCharArray();
+        int i = 0, j = 0;
+        while (i < tsArray.length && j < psArray.length) {
+            // 匹配就比较下一个
+            if (tsArray[i] == psArray[j]) {
+                i++;
+                j++;
+            }
+            // 不匹配，则i回退,j归零
+            else {
+                i = i - j + 1;
+                j = 0;
+            }
+            // 子字符串到头则说明匹配完毕
+            if (j == psArray.length) {
+                return i - j;
             }
         }
-        System.out.println("未找到");
+        return -1;
     }
 
-    public static void main(String[] args) {
-        KmpMatch kmpMatch = new KmpMatch("asdffewasc");
-        kmpMatch.match("asc");
-    }
 }
