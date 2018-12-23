@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertEquals;
 
@@ -45,4 +46,14 @@ public class LambdaApiTest {
         int sum = api.computeLimitSum(list);
         assertEquals(116, sum);
     }
+
+
+    @Test
+    public void range() {
+        List<String> nums = api.range(IntStream.range(0, 80));
+        assertEquals(Arrays.asList("0", "1", "2", "3", "4"), nums);
+    }
+
+
+
 }
